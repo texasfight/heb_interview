@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "heb-interview"
+version = "0.1.0"
+description = ""
+authors = ["Irvin Shen <irvinshen.texas@gmail.com>"]
+readme = "README.md"
+packages = [{include = "heb_interview"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.92.0"
+python-multipart = "^0.0.5"
+uvicorn = "^0.20.0"
+SQLAlchemy = "^2.0.4"
+furl = "^2.1.2"
+pydantic = {extras = ["dotenv"], version = "^1.10.5"}
+alembic = "^1.9.4"
+psycopg2 = "^2.9.5"
+jupyter = "^1.0.0"
+requests = "^2.28.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

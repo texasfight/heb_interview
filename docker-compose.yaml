@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  db:
+    image: postgresql
+    restart: always
+    environment:
+      - &postgres_pass POSTGRES_PASSWORD=Welcome1
+      - &postgres_user POSTGRES_USER=irvin
+      - &postgres_db POSTGRES_DB=heb
+
+  fakes3:
+    image: scireum/s3-ninja:8.1.1
+    restart: always
+    ports:
+      - 9433:9000
+
+  api:
+    image: texasfight/heb_image_api
+    restart: always
+    build:
+      context: api
+      dockerfile: api.Dockerfile
