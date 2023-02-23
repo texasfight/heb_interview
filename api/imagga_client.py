@@ -10,11 +10,12 @@ from pydantic import SecretStr
 
 
 class ImaggaClient:
-    def __init__(self,
-                 url: str = settings.imagga_url,
-                 key: str = settings.imagga_user,
-                 password: Union[str, SecretStr] = settings.imagga_secret):
-
+    def __init__(
+        self,
+        url: str = settings.imagga_url,
+        key: str = settings.imagga_user,
+        password: Union[str, SecretStr] = settings.imagga_secret,
+    ):
         self.url = url
 
         self.key = key
@@ -41,12 +42,16 @@ class ImaggaClient:
         request_data = request.json()
 
         if code_group == 5:
-            raise HTTPException(503,
-                                detail=f"The Imagga servers are currently unavailable with a status code of {request.status_code}. Please try again later.")
+            raise HTTPException(
+                503,
+                detail=f"The Imagga servers are currently unavailable with a status code of {request.status_code}. Please try again later.",
+            )
         elif code_group == 4:
-            raise HTTPException(request.status_code,
-                                detail="The Imagga service threw an error with the following information: "
-                                       f"{request_data['status']['text']}")
+            raise HTTPException(
+                request.status_code,
+                detail="The Imagga service threw an error with the following information: "
+                f"{request_data['status']['text']}",
+            )
 
         tags = list()
 
@@ -62,9 +67,11 @@ class ImaggaClient:
         :param file: A file loaded into memory
         :return:
         """
-        request = requests.post(settings.imagga_url,
-                                auth=self.auth,
-                                files={'image': file},)
+        request = requests.post(
+            settings.imagga_url,
+            auth=self.auth,
+            files={"image": file},
+        )
 
         return self._process_request(request)
 
@@ -74,8 +81,9 @@ class ImaggaClient:
         :param image_url: URL to the image to be processed
         :return:
         """
-        request = requests.get(f"{self.url}?image_url={image_url}",
-                               auth=self.auth,)
+        request = requests.get(
+            f"{self.url}?image_url={image_url}",
+            auth=self.auth,
+        )
 
         return self._process_request(request)
-

@@ -6,8 +6,8 @@ from .database import Base
 class ImageTagJunction(Base):
     __tablename__ = "image_tag_junction"
 
-    image_id = Column(Integer, ForeignKey('images.id'), primary_key=True)
-    tag_name = Column(String, ForeignKey('tags.name'), primary_key=True)
+    image_id = Column(Integer, ForeignKey("images.id"), primary_key=True)
+    tag_name = Column(String, ForeignKey("tags.name"), primary_key=True)
 
 
 class Image(Base):
@@ -25,5 +25,6 @@ class Tag(Base):
 
     name = Column(String, primary_key=True)
 
-    images = relationship("Image", back_populates="tags", secondary="image_tag_junction")
-
+    images = relationship(
+        "Image", back_populates="tags", secondary="image_tag_junction"
+    )

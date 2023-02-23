@@ -18,6 +18,7 @@ alembic = "^1.9.4"
 psycopg2 = "^2.9.5"
 jupyter = "^1.0.0"
 requests = "^2.28.2"
+black = "^23.1.0"
 
 [build-system]
 requires = ["poetry-core"]
