@@ -1,12 +1,10 @@
-import pprint
-
 from .config import settings
 
-from tempfile import SpooledTemporaryFile
 import requests
 from fastapi import HTTPException
-from typing import Union, Tuple, List
+from typing import Tuple, List
 from pydantic import SecretStr
+from io import BytesIO
 
 
 class ImaggaClient:
@@ -14,7 +12,7 @@ class ImaggaClient:
         self,
         url: str = settings.imagga_url,
         key: str = settings.imagga_user,
-        password: Union[str, SecretStr] = settings.imagga_secret,
+        password: SecretStr = settings.imagga_secret,
     ):
         self.url = url
 
@@ -44,7 +42,8 @@ class ImaggaClient:
         if code_group == 5:
             raise HTTPException(
                 503,
-                detail=f"The Imagga servers are currently unavailable with a status code of {request.status_code}. Please try again later.",
+                detail=f"The Imagga servers are currently unavailable with a status code of {request.status_code}. "
+                       f"Please try again later.",
             )
         elif code_group == 4:
             raise HTTPException(
@@ -61,7 +60,7 @@ class ImaggaClient:
 
         return tags
 
-    def tag_file_upload(self, file: SpooledTemporaryFile) -> List[str]:
+    def tag_file_upload(self, file: BytesIO) -> List[str]:
         """Sends a POST request to the tags endpoint to perform object classification on an uploaded file.
 
         :param file: A file loaded into memory

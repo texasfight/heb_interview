@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, URL
 from sqlalchemy.orm import relationship
 from .database import Base
 
@@ -16,6 +16,8 @@ class Image(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     label = Column(String, nullable=False, index=False)
     enable_detection = Column(Boolean, nullable=False)
+    content_type = Column(String, nullable=True)
+    download_url = Column(String)
 
     tags = relationship("Tag", back_populates="images", secondary="image_tag_junction")
 

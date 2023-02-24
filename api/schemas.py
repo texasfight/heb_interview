@@ -28,10 +28,12 @@ class ImageBase(BaseModel):
 
 class ImageURLInput(ImageBase):
     label: Optional[str]
-    url: AnyUrl
+    url: Optional[AnyUrl]
 
 
 class ImageDBInput(ImageBase):
+    content_type: Optional[str] = None
+    download_url: AnyUrl
     tags: List[TagBase] = []
 
 
