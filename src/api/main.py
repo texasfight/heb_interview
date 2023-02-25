@@ -1,5 +1,5 @@
 from fastapi import FastAPI, File, Form, UploadFile, Depends, HTTPException
-from typing import Optional, List, Union
+from typing import List
 from sqlalchemy.orm import Session
 import requests
 from io import BytesIO
@@ -82,7 +82,7 @@ def add_image(
             raise HTTPException(404, "Unable to query to given URL for an image.")
 
         file_data = BytesIO(file_request.content)
-        file_type = file_request.headers['content-type']
+        file_type = file_request.headers["content-type"]
 
     else:
         file_data = file.file
@@ -117,16 +117,17 @@ def add_image(
     return db_interface.add_image(db, image)
 
 
-@app.put("/images", response_model=ImageOutput)
-def add_image_from_url(image_input: ImageURLInput, db: Session = Depends(get_db)):
-    tags = list()
-
-    if image_input.enable_detection:
-        client = ImaggaClient()
-        tags = client.tag_url(image_input.url)
-
-    image = ImageDBInput(
-        **image_input.dict(include={"label", "enable_detection"}),
-        tags=[Tag(name=tag) for tag in tags],
-    )
-    return db_interface.add_image(db, image)
+#
+# @app.put("/images", response_model=ImageOutput)
+# def add_image_from_url(image_input: ImageURLInput, db: Session = Depends(get_db)):
+#     tags = list()
+#
+#     if image_input.enable_detection:
+#         client = ImaggaClient()
+#         tags = client.tag_url(image_input.url)
+#
+#     image = ImageDBInput(
+#         **image_input.dict(include={"label", "enable_detection"}),
+#         tags=[Tag(name=tag) for tag in tags],
+#     )
+#     return db_interface.add_image(db, image)

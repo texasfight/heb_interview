@@ -43,7 +43,7 @@ class ImaggaClient:
             raise HTTPException(
                 503,
                 detail=f"The Imagga servers are currently unavailable with a status code of {request.status_code}. "
-                       f"Please try again later.",
+                f"Please try again later.",
             )
         elif code_group == 4:
             raise HTTPException(

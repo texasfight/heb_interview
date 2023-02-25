@@ -8,14 +8,15 @@ from .config import settings
 
 
 class S3_Client:
-    def __init__(self,
-                 access_key: str = settings.s3_access_key,
-                 secret_key: str = settings.s3_secret_key.get_secret_value(),
-                 url: str = settings.s3_url,
-                 bucket: str = settings.s3_bucket):
-
+    def __init__(
+        self,
+        access_key: str = settings.s3_access_key,
+        secret_key: str = settings.s3_secret_key.get_secret_value(),
+        url: str = settings.s3_url,
+        bucket: str = settings.s3_bucket,
+    ):
         self.client = boto3.client(
-            service_name='s3',
+            service_name="s3",
             aws_access_key_id=access_key,
             aws_secret_access_key=secret_key,
             endpoint_url=url,
@@ -25,7 +26,12 @@ class S3_Client:
 
         self.bucket = bucket
 
-    def upload_file(self, file_obj: Union[SpooledTemporaryFile, IOBase], label: str, bucket: Optional[str] = None) -> str:
+    def upload_file(
+        self,
+        file_obj: Union[SpooledTemporaryFile, IOBase],
+        label: str,
+        bucket: Optional[str] = None,
+    ) -> str:
         """
 
         :param file_obj: File in memory to be uploaded to the bucket
@@ -38,6 +44,4 @@ class S3_Client:
 
         self.client.upload_fileobj(file_obj, bucket, label)
 
-        return f"{self.url.rstrip('/')}/{bucket}/{quote(label)}"
-
-
+        return f"http://localhost:9000/{bucket}/{quote(label)}"

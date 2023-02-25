@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Irvin Shen <irvinshen.texas@gmail.com>"]
 readme = "README.md"
-packages = [{include = "heb_interview"}]
+packages = [{include = "."}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -15,11 +15,11 @@ SQLAlchemy = "^2.0.4"
 furl = "^2.1.2"
 pydantic = {extras = ["dotenv"], version = "^1.10.5"}
 alembic = "^1.9.4"
-psycopg2 = "^2.9.5"
 jupyter = "^1.0.0"
 requests = "^2.28.2"
 black = "^23.1.0"
 boto3 = "^1.26.78"
+psycopg2 = "^2.9.5"
 
 [build-system]
 requires = ["poetry-core"]

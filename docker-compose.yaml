@@ -1,22 +1,39 @@
 version: '3.8'
 services:
   db:
-    image: postgresql
+    image: postgres
     restart: always
     environment:
       - &postgres_pass POSTGRES_PASSWORD=Welcome1
       - &postgres_user POSTGRES_USER=irvin
       - &postgres_db POSTGRES_DB=heb
-
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
   fakes3:
     image: scireum/s3-ninja:8.1.1
     restart: always
     ports:
-      - 9433:9000
-
+      - "9000:9000"
   api:
     image: texasfight/heb_image_api
     restart: always
     build:
-      context: api
+      context: .
       dockerfile: api.Dockerfile
+    environment:
+      - *postgres_db
+      - *postgres_pass
+      - *postgres_user
+      - POSTGRES_HOST=db:5432
+      - S3_URL=http://fakes3:9000
+    depends_on:
+      - fakes3
+      - db
+    ports:
+      - "8080:80"
+volumes:
+  postgres:
+
